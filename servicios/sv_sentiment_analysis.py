@@ -1,29 +1,27 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#!/usr/bin/env python
 #----------------------------------------------------------------------------------------------------------------
 # Archivo: sv_sentimnet_analysis.py
 # Tarea: 2 Arquitecturas Micro Servicios.
-# Autor(es): Gilberto Estrada, Erick Ibarra, Iseal Fraire & Victor Reveles
+# Autor(es): Gilberto Estrada, Erick Ibarra, Isela Fraire & Victor Reveles
 # Version: 1.0 Mayo 2017
 # Descripción:
 #
-#   Este Archivo define el rol de un servicio. Sun función principal es analizar los comentarios descargados 
-#   de twitter y clasificarlos en 3 tipos; Positivo, negativo o neutro para bindar una idea general al usuario
-#   de cómo la película ha sido recibida al publico en general.
+#   Este Archivo define el rol de un servicio. Su función principal es analizar los comentarios descargados 
+#   desde twitter y clasificarlos en 3 tipos: positivo, negativo o neutro para brindar una idea general al usuario
+#   de cómo la película ha sido recibida por el público en general.
 #   
 #
 #
 #
-#                              sv_sentimnet_analysis.py
+#                              sv_sentiment_analysis.py
 # +-----------------------+---------------------------+-------------------------+
 # |  Nombre del elemento  |     Responsabilidad       |      Propiedades        |
 # +-----------------------+---------------------------+-------------------------+
 # |                       |  - Ofrecer un JSON que    | - Extrae los comentarios|
 # |    Analizador de      |    contenga los resultados|   guardados desde la    |
 # |    sentimientos       |    clasificados de los    |   la base de datos.     |
-# |                       |    comentarios exextraidos|                         | 
+# |                       |    comentarios extraídos  |                         | 
 # |                       |    desde twitter          |                         |
 # |                       |                           |                         |
 # +-----------------------+---------------------------+-------------------------+
@@ -68,8 +66,8 @@ def analysis():
 
         #Obtenemos los comentarios guardados en la base de datos de la película buscada.
         for t in c.execute("SELECT * FROM Tweets WHERE query='{0}'".format(TWEET_TOPIC)):
-            #Para no realizar doble procesamiento, desde el momento en obtener desde la base de datos se envian
-            #a la libreria que realizará la clasificación por analisis de sentimientos del texto de los tweets.
+            #Para no realizar doble procesamiento, desde el momento en obtener desde la base de datos se envían
+            #a la librería que realizará la clasificación por análisis de sentimientos del texto de los tweets.
             tweet = {"text": str(t[1]),
                      "query": str(t[2]),
                      "polarity": afinn.score(str(t[1]))}

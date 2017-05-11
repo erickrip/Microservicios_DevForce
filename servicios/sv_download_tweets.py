@@ -3,11 +3,11 @@
 #----------------------------------------------------------------------------------------------------------------
 # Archivo: sv_download_tweets.py
 # Tarea: 2 Arquitecturas Micro Servicios.
-# Autor(es): Gilberto Estrada, Erick Ibarra, Iseal Fraire & Victor Reveles
+# Autor(es): Gilberto Estrada, Erick Ibarra, Isela Fraire & Victor Reveles
 # Version: 1.0 Mayo 2017
 # Descripción:
 #
-#   Este Archivo define el rol de un servicio. Sun función principal es descargar Tweets de un tema en 
+#   Este Archivo define el rol de un servicio. Su función principal es descargar tweets de un tema en 
 #   especifico, proporcionando todos los detalles de los tweets descargados haciendo uso de la libreria tweepy,
 #   asi mismo usando el mandejador de base de datos sqlite para guardar los tweets recuperados.
 #   
@@ -19,11 +19,12 @@
 # |  Nombre del elemento  |     Responsabilidad     |      Propiedades       |
 # +-----------------------+-------------------------+------------------------+
 # |                       |  - Ofrecer un JSON que  | - Utiliza el API de    |
-# |    Procesador de      |    contenga información |   twitter              |
+# |    Descargador de     |    contenga información |   twitter              |
 # |     comentarios       |    detallada de un      | - Utiliza base de datos|
-# |					  	  |	   tweet con una        |   sqlite3.             |
-# |                       |    busqueda especifica. | - Utiliza libreria     |
-# |              		  |                         |   tweepy.              |
+# |					  	  |	   tweet relacionado    |   sqlite3.             |
+# |                       |    con una busqueda     | - Utiliza librería     |
+# |                       |     especifica.         | 	tweepy               |
+# |              		  |                         |                        |
 # +-----------------------+-------------------------+------------------------+
 #
 
@@ -37,15 +38,12 @@ from flask import Flask, abort, render_template, request
 app = Flask (__name__)
 
 
-#Se creó una aplicacion desde dev.twitter.com y esto nos generó las siguientes llaves para
-#poder utilizar la API de twitter.
+#Se creó una aplicacion desde dev.twitter.com para poder generar estas llaves
+# y acceder a la API de twitter.
 CKEY = "MTe1aN2WYDmfXROJUKApfHWhz"
 CSECRET = "2iMHDbW962bNL3KfKh2CeTMUddITzJ1I8GOIuhbDUw4wHLaRTF"
 ATOKEN = "603859293-zHtm1UIhPh3McLjtvjojhw0s72rBJEDH3BUMSgfk"
 ATOKENSECRET = "eh2LqJZQxH0WxU7EIL6HN91pmzfUecVwXwxi9k7S0rFO7"
-
-#TWEET_TOPIC: Determinamos el tema del cual se van a realizar las busquedas de
-# los tweets.
 
 
 #Determinamos en que lenguaje se haran las busquedas.
@@ -55,6 +53,7 @@ LIMIT = 1000
 
 @app.route("/api/v1/download", methods=['GET'])
 def get_tweets():
+	# Tema del cuál se buscarán tweets
     TWEET_TOPIC = request.args.get("t")
 
     if TWEET_TOPIC is not None:
@@ -83,9 +82,9 @@ def get_tweets():
         # ejecutar comandos SQL.
         c = conn.cursor()
 
-        #Con el comando execute realizamos la creacion de la base de datos en
+        #Con el comando execute realizamos la creación de la base de datos en
         # caso de que no existiera la tabla, si la tabla ya fue creada,
-        # se ignora esta ejecucion. En la tabla se implementaron 3 campos:
+        # se ignora esta ejecución. En la tabla se implementaron 3 campos:
         #     -ID: Se guarda el ID de el tweet obtenido.
         #     -tweet_text: Se guarda el contendio del tweet.
         #     -query: Se guarda el nombre de la serie o pelicula.
@@ -100,7 +99,7 @@ def get_tweets():
                 pass
 
         #La función commit() nos permite guardar los cambios realizados en la
-                # base de datos.
+        # base de datos.
         conn.commit()
 
         '''
